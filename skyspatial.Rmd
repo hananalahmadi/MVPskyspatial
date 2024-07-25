@@ -80,6 +80,8 @@ Image taken from this [website](https://www.youtube.com/watch?v=bljuV9WDvAA) (mi
 
 ---
 
+i modified this
+
 class: left, top
 
 ## Introduction | Neural Networks | 1
