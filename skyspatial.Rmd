@@ -92,7 +92,7 @@ class: left, top
 
 --- 
 
-i do not see this part
+i do not see this part, but I ssee it 
 
 This website has a [shiny app](https://ul7mk9-lenin0rafael-riera0segura.shinyapps.io/appdir/) new edit
 
