@@ -62,7 +62,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -171,7 +171,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -488,7 +487,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Non-stationarity</h1>
-<h4 class="date">Created: 05-07-2024. Last modified: 23-07-2024.</h4>
+<h4 class="date">Created: 05-07-2024. Last modified: 25-07-2024.</h4>
 
 </div>
 
@@ -550,22 +549,21 @@ Networks | 1</h1>
 <div id="references" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> References</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cite_packages</span>(<span class="at">output =</span> <span class="st">&quot;paragraph&quot;</span>, <span class="at">out.dir =</span> <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
-<p>We used R version 4.3.2 <span class="citation">(R Core Team
+<p>We used R version 4.3.1 <span class="citation">(R Core Team
 2023)</span> and the following R packages: here v. 1.0.1 <span
-class="citation">(Müller 2020)</span>, htmltools v. 0.5.8.1 <span
-class="citation">(Cheng et al. 2024)</span>, knitr v. 1.45 <span
+class="citation">(Müller 2020)</span>, htmltools v. 0.5.7 <span
+class="citation">(Cheng et al. 2023)</span>, knitr v. 1.45 <span
 class="citation">(Xie 2014, 2015, 2023)</span>, neuralnet v. 1.44.2
 <span class="citation">(Fritsch, Guenther, and Wright 2019)</span>,
 RefManageR v. 1.4.0 <span class="citation">(McLean 2014, 2017)</span>,
 rmarkdown v. 2.26 <span class="citation">(Xie, Allaire, and Grolemund
 2018; Xie, Dervieux, and Riederer 2020; Allaire et al. 2024)</span>,
-shiny v. 1.8.1.1 <span class="citation">(Chang et al. 2024)</span>,
-xaringan v. 0.30.1 <span class="citation">(Xie 2024)</span>,
-xaringanExtra v. 0.7.0 <span class="citation">(Aden-Buie and Warkentin
-2022)</span>, xaringanthemer v. 0.4.2 <span class="citation">(Aden-Buie
+shiny v. 1.8.0 <span class="citation">(Chang et al. 2023)</span>,
+xaringan v. 0.30 <span class="citation">(Xie 2024)</span>, xaringanExtra
+v. 0.8.0 <span class="citation">(Aden-Buie and Warkentin 2024)</span>,
+xaringanthemer v. 0.4.2 <span class="citation">(Aden-Buie
 2022)</span>.</p>
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-xaringanthemer" class="csl-entry">
 Aden-Buie, Garrick. 2022. <em><span
 class="nocase">xaringanthemer</span>: Custom <span>“<span
@@ -573,7 +571,7 @@ class="nocase">xaringan</span>”</span> CSS Themes</em>. <a
 href="https://CRAN.R-project.org/package=xaringanthemer">https://CRAN.R-project.org/package=xaringanthemer</a>.
 </div>
 <div id="ref-xaringanExtra" class="csl-entry">
-Aden-Buie, Garrick, and Matthew T. Warkentin. 2022. <em><span
+Aden-Buie, Garrick, and Matthew T. Warkentin. 2024. <em><span
 class="nocase">xaringanExtra</span>: Extras and Extensions for
 <span>“<span class="nocase">xaringan</span>”</span> Slides</em>. <a
 href="https://CRAN.R-project.org/package=xaringanExtra">https://CRAN.R-project.org/package=xaringanExtra</a>.
@@ -587,13 +585,13 @@ href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown
 <div id="ref-shiny" class="csl-entry">
 Chang, Winston, Joe Cheng, JJ Allaire, Carson Sievert, Barret Schloerke,
 Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert, and Barbara
-Borges. 2024. <em><span class="nocase">shiny</span>: Web Application
+Borges. 2023. <em><span class="nocase">shiny</span>: Web Application
 Framework for r</em>. <a
 href="https://CRAN.R-project.org/package=shiny">https://CRAN.R-project.org/package=shiny</a>.
 </div>
 <div id="ref-htmltools" class="csl-entry">
 Cheng, Joe, Carson Sievert, Barret Schloerke, Winston Chang, Yihui Xie,
-and Jeff Allen. 2024. <em><span class="nocase">htmltools</span>: Tools
+and Jeff Allen. 2023. <em><span class="nocase">htmltools</span>: Tools
 for HTML</em>. <a
 href="https://CRAN.R-project.org/package=htmltools">https://CRAN.R-project.org/package=htmltools</a>.
 </div>
@@ -644,7 +642,7 @@ href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
 <div id="ref-xaringan" class="csl-entry">
 ———. 2024. <em><span class="nocase">xaringan</span>: Presentation
 Ninja</em>. <a
-href="https://github.com/yihui/xaringan">https://github.com/yihui/xaringan</a>.
+href="https://CRAN.R-project.org/package=xaringan">https://CRAN.R-project.org/package=xaringan</a>.
 </div>
 <div id="ref-rmarkdown2018" class="csl-entry">
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. <em>R Markdown:

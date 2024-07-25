@@ -60,6 +60,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r}
+library(here)
+```
+
 class: left, top
 
 ## Introduction | Neural Networks | 1
@@ -69,7 +73,7 @@ Neural Networks (NNs) are universal function approximators, meaning that given a
 --
 
 ```{r, echo = FALSE}
-knitr::include_graphics("~/Downloads/5.Summer2024/SKYSPATIAL/skyspatial/yfx.png")
+knitr::include_graphics(here("yfx.png"))
 ```
 
 Image taken from this [website](https://www.youtube.com/watch?v=bljuV9WDvAA) (minute 0:13).
@@ -86,10 +90,16 @@ class: left, top
 
 --- 
 
+i do not see this part
 
-This website has a [shiny app](https://ul7mk9-lenin0rafael-riera0segura.shinyapps.io/appdir/)
+This website has a [shiny app](https://ul7mk9-lenin0rafael-riera0segura.shinyapps.io/appdir/) new edit
 
 ---
+
+
+dsdfs
+
+----
 
 ## Introduction | Neural Networks | 2
 
@@ -124,7 +134,7 @@ This is a 1 hidden layer NN with 5 neurons and sigmoid activation function.
 
 .pull-left[
 ```{r, echo = FALSE}
-knitr::include_graphics("~/Downloads/5.Summer2024/SKYSPATIAL/skyspatial/yfx.png")
+knitr::include_graphics(here("yfx.png"))
 ```
 
 Representation of a basic NN. Image source: `r Cite(myBib, "bishop2006pattern", before = "Pag. 228, Fig 5.1, ")`
@@ -240,7 +250,7 @@ Because the magnitude of these eigenvalues is relatively small, we expect that e
 
 .pull-left35[
 ```{r, out.width = "85%", echo = FALSE}
-knitr::include_graphics("~/Downloads/5.Summer2024/SKYSPATIAL/skyspatial/yfx.png")
+knitr::include_graphics(here("yfx.png"))
 ```
 ]
 
@@ -271,7 +281,7 @@ Formulas taken from this [website](https://en.wikipedia.org/wiki/Backward_differ
 - [`dopri5`](https://github.com/rtqichen/torchdiffeq/blob/master/torchdiffeq/_impl/dopri5.py): Explicit (embedded) Runge-Kutta 4(5) of Dormand-Prince-Shampine (adaptive stepsize). Find below the Butcher tableau for this method.
 
 ```{r, out.width = "65%"}
-knitr::include_graphics("~/Downloads/5.Summer2024/SKYSPATIAL/skyspatial/yfx.png")
+knitr::include_graphics(here("yfx.png"))
 ```
 
 Image taken from this [website](https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods#Dormand%E2%80%93Prince).
@@ -283,7 +293,7 @@ Image taken from this [website](https://en.wikipedia.org/wiki/List_of_Runge%E2%8
 - `rk4`: Explicit Runge-Kutta of order 4. Find below the Butcher tableau for this method.
 
 ```{r, out.width = "18%"}
-knitr::include_graphics("~/Downloads/5.Summer2024/SKYSPATIAL/skyspatial/yfx.png")
+knitr::include_graphics(here("yfx.png"))
 ```
 
 Image taken from this [website](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Examples).
