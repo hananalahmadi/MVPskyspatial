@@ -1,6 +1,8 @@
 # load the shiny package
 library(shiny)
 
+
+
 # define the user interface object with the appearance of the app
 ui <- fluidPage(
   titlePanel("Example of sidebar layout"),
