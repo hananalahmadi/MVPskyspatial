@@ -29,8 +29,7 @@ class: center, middle, inverse, title-slide
 ### KAUST
 ]
 .date[
-### 25-07-2024
-Based on the article on Neural ordinary differential equations by Chen, Rubanova, Bettencourt, and Duvenaud [Che+18] and the torchdiffeq repository [Che18].
+### <p>29-09-2024</p>
 ]
 
 ---
@@ -43,17 +42,39 @@ Based on the article on Neural ordinary differential equations by Chen, Rubanova
 
 class: left, top
 
-## Introduction | Neural Networks | 1
+## Our team
 
-Neural Networks (NNs) are universal function approximators, meaning that given a set of input-output pairs `\((x,y)\)`, where `\(y= f(x)\)`, a NN `\(N\)` can approximate `\(f\)` with arbitrary precision.  
+
+&lt;div style="display: flex; justify-content: center; align-items: center;"&gt;
+  &lt;div style="margin: 50px; text-align: center;"&gt; &lt;!-- Increased margin from 10px to 20px --&gt;
+    &lt;img src="hanan.png" style="width: 150px; height: 150px; border-radius: 50%;"&gt;
+    &lt;div&gt;Hanan&lt;/div&gt;
+    &lt;div&gt;Leader and founder&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="margin: 50px; text-align: center;"&gt; &lt;!-- Increased margin from 10px to 20px --&gt;
+    &lt;img src="lenin.png" style="width: 150px; height: 150px; border-radius: 50%;"&gt;
+    &lt;div&gt;Lenin&lt;/div&gt;
+    &lt;div&gt;Co-founder&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="margin: 50px; text-align: center;"&gt; &lt;!-- Increased margin from 10px to 20px --&gt;
+    &lt;img src="ruiman.png" style="width: 150px; height: 150px; border-radius: 50%;"&gt;
+    &lt;div&gt;Ruiman&lt;/div&gt;
+    &lt;div&gt;Co-founder&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
 --
 
-&lt;img src="yfx.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```
+## Error in knitr::include_graphics(here("yfx.png")): Cannot find the file(s): "yfx.png"
+```
 
 Image taken from this [website](https://www.youtube.com/watch?v=bljuV9WDvAA) (minute 0:13).
 
 ---
+
+i modified this for the second time and again
 
 class: left, top
 
@@ -65,7 +86,8 @@ class: left, top
 
 --- 
 
-i do not see this part
+
+i do not see this part i change this lately
 
 This website has a [shiny app](https://ul7mk9-lenin0rafael-riera0segura.shinyapps.io/appdir/) new edit
 
@@ -101,14 +123,17 @@ legend("topright", legend = c("f", "N"), col = c("blue", "red"), lwd = 2)
 ```
 ]
 
-This is a 1 hidden layer NN with 5 neurons and sigmoid activation function.
+Slogon for Skyspatial: Unlocking the Power of Earth Observation for a Sustainable Future
 
 ---
 
 ## Introduction | Neural Networks | 3
 
 .pull-left[
-&lt;img src="yfx.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```
+## Error in knitr::include_graphics(here("yfx.png")): Cannot find the file(s): "yfx.png"
+```
 
 Representation of a basic NN. Image source: [Pag. 228, Fig 5.1, Bis06]
 ]
@@ -222,7 +247,10 @@ Because the magnitude of these eigenvalues is relatively small, we expect that e
 \end{align}`
 
 .pull-left35[
-&lt;img src="yfx.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+```
+## Error in knitr::include_graphics(here("yfx.png")): Cannot find the file(s): "yfx.png"
+```
 ]
 
 .pull-right65[
@@ -251,7 +279,10 @@ Formulas taken from this [website](https://en.wikipedia.org/wiki/Backward_differ
 
 - [`dopri5`](https://github.com/rtqichen/torchdiffeq/blob/master/torchdiffeq/_impl/dopri5.py): Explicit (embedded) Runge-Kutta 4(5) of Dormand-Prince-Shampine (adaptive stepsize). Find below the Butcher tableau for this method.
 
-&lt;img src="yfx.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+```
+## Error in knitr::include_graphics(here("yfx.png")): Cannot find the file(s): "yfx.png"
+```
 
 Image taken from this [website](https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods#Dormand%E2%80%93Prince).
 
@@ -261,7 +292,10 @@ Image taken from this [website](https://en.wikipedia.org/wiki/List_of_Runge%E2%8
 
 - `rk4`: Explicit Runge-Kutta of order 4. Find below the Butcher tableau for this method.
 
-&lt;img src="yfx.png" width="18%" style="display: block; margin: auto;" /&gt;
+
+```
+## Error in knitr::include_graphics(here("yfx.png")): Cannot find the file(s): "yfx.png"
+```
 
 Image taken from this [website](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Examples).
 

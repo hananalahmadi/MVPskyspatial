@@ -3,7 +3,7 @@ title: "Solving Ordinary Differential Equations using an ODEnet"
 subtitle: ""
 author: "Lenin Rafael Riera Segura"
 institute: "KAUST"
-date: "`r format(Sys.time(), '%d-%m-%Y')`\n Based on the article on Neural ordinary differential equations by Chen, Rubanova, Bettencourt, and Duvenaud [Che+18] and the torchdiffeq repository [Che18]."
+date: "`r format(Sys.time(), '%d-%m-%Y')`\n"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -66,9 +66,30 @@ library(here)
 
 class: left, top
 
-## Introduction | Neural Networks | 1
+## Our team
 
-Neural Networks (NNs) are universal function approximators, meaning that given a set of input-output pairs $(x,y)$, where $y= f(x)$, a NN $N$ can approximate $f$ with arbitrary precision.  
+```{r, echo = FALSE, results='asis'}
+
+cat('
+<div style="display: flex; justify-content: center; align-items: center;">
+  <div style="margin: 50px; text-align: center;"> <!-- Increased margin from 10px to 20px -->
+    <img src="hanan.png" style="width: 150px; height: 150px; border-radius: 50%;">
+    <div>Hanan</div>
+    <div>Leader and founder</div>
+  </div>
+  <div style="margin: 50px; text-align: center;"> <!-- Increased margin from 10px to 20px -->
+    <img src="lenin.png" style="width: 150px; height: 150px; border-radius: 50%;">
+    <div>Lenin</div>
+    <div>Co-founder</div>
+  </div>
+  <div style="margin: 50px; text-align: center;"> <!-- Increased margin from 10px to 20px -->
+    <img src="ruiman.png" style="width: 150px; height: 150px; border-radius: 50%;">
+    <div>Ruiman</div>
+    <div>Co-founder</div>
+  </div>
+</div>
+')
+```
 
 --
 
@@ -129,7 +150,7 @@ legend("topright", legend = c("f", "N"), col = c("blue", "red"), lwd = 2)
 ```
 ]
 
-This is a 1 hidden layer NN with 5 neurons and sigmoid activation function.
+Slogon for Skyspatial: Unlocking the Power of Earth Observation for a Sustainable Future
 
 ---
 

@@ -1,5 +1,6 @@
 ---
-title: "About This Website"
+title: "Skyspatial"
 ---
 
-More about this website.
+Skyspatial is a forward-thinking Saudi Space-tech startup based out of Thuwal. Skyspatial leverages satellite technology to gather Earth observation data and conduct advanced analysis to address environmental issues. We provide prediction and insights of pollution, temperature, and precipitation to government agencies, supporting informed decision-making in environmental protection and resource management. 
+

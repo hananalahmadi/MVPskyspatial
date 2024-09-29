@@ -1,6 +1,5 @@
 ---
-title: "Non-stationarity"
-date: "Created: 05-07-2024. Last modified: `r format(Sys.time(), '%d-%m-%Y.')`"
+title: "Workshop About Detecting Disease Cluster in Saudi Arabia"
 output:
   html_document:
     mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
@@ -37,6 +36,9 @@ header-includes:
 ################################################################################
 ################################################################################
 ################################################################################
+#Go back to the [About page](about.html).
+
+#Let us set some global options for all code chunks in this document.
 ```
 
 ```{r xaringanExtra-clipboard, echo = FALSE}
@@ -72,12 +74,10 @@ pre {
 ```
 
 
-Go back to the [About page](about.html).
-
-Let us set some global options for all code chunks in this document.
 
 
-```{r}
+
+```{r, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE,    # Disable messages printed by R code chunks
   warning = FALSE,    # Disable warnings printed by R code chunks
@@ -95,31 +95,311 @@ rm(list = ls())
 set.seed(1982)
 ```
 
-# Import libraries
+
+# Disease Mapping for Areal Data 
+
+
+```{r, echo=FALSE, warning=FALSE,message=FALSE}
+
+library(sf)
+library(sp)
+library(raster)
+library(readxl)
+library(mapview)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(viridis)
+library(openair)
+library(terra)
+library(leaflet)
+library(tigris)
+library(pander)
+library(spdep)
+library(INLA)
+library(gridExtra)
+library(rgeoboundaries)
+library(rnaturalearth)
+library(readxl)
+
+```
+
+# Disease mapping of cardiovascular disease
+
+In this chapter, we will estimate the relative risk of cardiovascular disease in Saudi Arabia using the R-INLA framework as described by @rue2009royal and the quantile disease mapping model proposed by @alahmadi2024joint. The disease data was obtained from a household field survey conducted by General Authority for Statistics in Saudi Arabia https://www.stats.gov.sa/en. First, we will outline the process of calculating and interpreting the standardized incidence ratios (SIRs) for different regions in Saudi Arabia. Next, we will demonstrate how to fit the quantile disease mapping model to obtain relative risk estimates and assess the impact of hypertension. Finally, we will explain how to calculate exceedance probabilities for the relative risk exceeding a specified threshold.
+
+## Data and map 
+
+We start by reading the data using the `read.csv()` function to import the csv file.
 
 ```{r}
-library(here)
-library(rmarkdown)
-library(grateful) # Cite all loaded packages
-
-rm(list = ls()) # Clear the workspace
-set.seed(1982) # Set seed for reproducibility
+d <- read.csv("data/data.csv", header = T)
 ```
 
-# Introduction | Neural Networks | 1
-
-
-```{=html}
-<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
-    <iframe src="https://ul7mk9-lenin0rafael-riera0segura.shinyapps.io/appdir/" style="position: absolute; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
-</div>
-```
-
-
-
-
-# References
+Then we type ` head() ` to display the first few rows of the data
 
 ```{r}
-cite_packages(output = "paragraph", out.dir = ".")
+d <- read.csv("data/data.csv", header = T)
+head(d)
 ```
+
+Next, we obtain the map of Saudi Arabia using the `ne_states` function from the **rnaturalearth** package. We also need the **sf** package for handling spatial data.
+
+```{r}
+library(rnaturalearth)
+library(sf)
+map <- ne_states(country = "Saudi Arabia", returnclass = "sf")
+```
+
+To begin analyzing our geographic data, we first need to inspect the structure of our dataset. This can be done by displaying the names of all columns within the `map` dataframe. This will provide an overview of the available data fields.
+
+```{r}
+names(map)
+```
+
+After identifying all the columns, we can streamline our dataset to include only the necessary information for our analysis. In this case, we are interested in the names of the regions in Saudi Arabia and their corresponding geometric data. We achieve this by selecting only the `name` and `geometry` columns from the `map` dataframe.
+
+```{r}
+map <- map %>%
+  select(name, geometry)
+```
+
+By refining our dataset in this manner, we focus on the relevant information, making our subsequent analysis more efficient and manageable. 
+
+```{r}
+names(map)
+```
+
+To prepare for spatial analysis and data visualization, we need to combine our geographic data (`map`) with our diseases data (`d`). We will use the inner_join function from the **dplyr** package to merge these datasets based on the region names.
+In the `map` dataframe, the column for region names is called `name`, and in the `d` dataframe, it is called `regions`. 
+
+Before merging, we need to ensure the region names are spelled consistently in both datasets. We'll sort both datasets alphabetically and compare the names:
+
+
+```{r}
+map <- map[order(map$name),]
+d <- d[order(d$regions),]
+
+names <- cbind(map$name, d$regions)
+names
+```
+
+We notice a discrepancy in the spelling of "Asir" between the two datasets. We need to correct this before merging:
+
+```{r}
+map$name[map$name == "`Asir"] <- "Asir"
+map <- map[order(map$name),]
+names <- cbind(map$name, d$regions)
+names
+```
+
+Now that the region names are consistent, we can merge the datasets:
+
+
+```{r}
+library(dplyr)
+
+map <- map %>%
+  inner_join(d, by = c("name" = "regions"))
+head(map)
+```
+
+With the names aligned, the datasets can be successfully merged, and we can proceed with spatial analysis and data visualization.
+The `map` dataframe contains the following columns: \
+
+- `name`: names of each of the regions in Saudi Arabia, 
+- `cardiovascular`: number of observed cases of cardiovascular diseases in each region, 
+- `diabetes`: number of observed cases of diabetes in each region, 
+- `hypertension`: number of observed cases of hypertension in each region, 
+- `population`: population of each region, 
+- `geometry`: geometry of each region.
+
+Now we can visualize all the datasets we have by using `plot()`, as shown in Figure \@ref(fig:plot1)
+
+```{r label = plot1 , fig.cap= "Spatial distribution of the data across Saudi Arabian regions"}
+plot(map)
+```
+
+
+## Expected cases
+
+To calculate the expected number of disease cases in each region, we use a method called indirect standardization, as explained by @moraga18. The goal is to estimate how many cases would be expected if the population in each region behaved like the overall Saudi Arabian population. First, let's define the expected counts \(E_i\) for each region \(i\) when we don't have strata information (e.g., the data isn't categorized by gender or age):
+
+\[
+E_i = r^{(s)} \times n_i \tag{2} \label{eq:E}
+\]
+
+where \(n_i\) is the population in region \(i\), and \(r^{(s)}\) is the overall disease rate for the standard population and is calculated as the total number of cases divided by the total population:
+
+\[
+r^{(s)} = \frac{\sum_{i=1}^{n} Y_i}{\sum_{i=1}^{n} n_i} \tag{1} \label{eq:r}
+\]
+
+We can calculate the expected counts by using the `expected()` function from the **SpatialEpi** package. This function requires three arguments:
+
+- `population`: a vector of population counts for each strata in each area.
+- `cases`: a vector with the number of cases for each strata in each area.
+- `n.strata`: the number of strata considered.
+
+In our case, we do not have strata information (e.g., the data isn't categorized by gender or age), so `n.strata` is set to 1.
+However, if you have data categorized by gender or age, for example:
+
+- Gender: male, female
+- Age: 0-20, 21-40, 41-60
+
+Then, there are 2 genders and 3 age groups for each region, making the number of strata 2 x 3 = 6.
+
+```{r}
+library(SpatialEpi)
+
+E <- expected(
+  population = map$population,
+  cases = map$Cardiovascular, n.strata = 1
+)
+E
+```
+
+We can also calculate the expected counts manually by first determining the overall disease rate `r` as shown in Equation \eqref{eq:r}. To do this, we use the `sum()` function to obtain the total number of cardiovascular disease cases across all regions in Saudi Arabia, which is stored in `map$Cardiovascular`. Similarly, we apply the sum() function to `map$population` to get the total population across all regions in Saudi Arabia. Finally, we calculate the expected counts as shown in Equation \eqref{eq:E} by multiplying the rate `r` `by map$population`.
+
+
+```{r}
+r = sum(map$Cardiovascular) / sum(map$population)
+E = r * map$population
+E
+```
+
+Now we add the vector `E` to our data `map`
+
+```{r}
+map$E <- E
+head(map)
+```
+
+
+## Standardized Incidence Ratio (SIR)
+
+The Standardized Incidence Ratio (SIR) is a measure used to estimate disease risk across different regions within a study area @moraga18. For each region \( i \), where \( i = 1, \ldots, n \), the SIR is defined as follows:
+
+\[
+\text{SIR}_{i} = \frac{Y_i}{E_i} \label{eq:SIR}
+\]
+
+where:
+
+- \( Y_i \) is the number of observed disease cases in region \( i \).
+
+- \( E_i \) is the number of expected disease cases in region \( i \), as described in Equation \eqref{eq:E}.
+
+The SIR provides a way to compare the observed number of disease cases to the expected number, helping to identify regions with higher or lower disease risks than anticipated. 
+
+- If \( SIR_i > 1 \), this implies that the risk in region \( i \) is higher than expected.
+- If \( SIR_i < 1 \), this implies that the risk in region \( i \) is lower than expected.
+- If \( SIR_i = 1 \), this implies that the risk in region \( i \) is as expected based on the standard population.
+
+Below we compute the `SIR` values and add it to the data frame `map`.
+
+```{r}
+map$SIR <- map$Cardiovascular / map$E
+head(map)
+
+```
+
+## Mapping the data 
+
+We can visualize the data `map` as an interactive choropleth map using the **leaflet** package in R.
+Before starting, ensure your `map` data is in the sf class by typing `class(map)`.
+
+```{r}
+class(map)
+```
+
+
+First, determine the color and range of the values to display on the map using the `colorNumeric()` function. \
+The `colorNumeric()` function requires two arguments:
+
+- `palette`, which specifies the colors you want to use,
+- `domain`, which includes the possible values to be mapped.
+
+Since we want to map the `SIR`, we will include `SIR` in the domain argument.
+
+```{r}
+pal <- colorNumeric(palette = "viridis",
+                    domain = map$SIR)
+```                   
+
+Next, create the map by calling the `leaflet()` function with your `map` as an argument:
+
+```{r}
+library(leaflet)
+l <- leaflet(map) 
+```
+
+Add the default OpenStreetMap tiles to the map using the `addTiles()` function, with `%>%` as the adding operator.
+
+```{r}
+library(leaflet)
+l <- leaflet(map) %>% addTiles()
+```
+
+Next, add the regions of Saudi Arabia with the `addPolygons()` function.\
+This function requires four arguments:
+
+- `color`: to specify the boundary color, 
+- `weight`: to specify the stroke width, 
+- `fillColor`: to use a color palette function and the values you want to map, 
+- `fillOpacity`: to control the transparency level of the fill color (setting it to a value less than 1 allows the background map to be visible).
+
+Add the `addPolygons()` function to the existing `l` object using the `%>%` operator.
+
+```{r}
+Po <- l  %>%  addPolygons(color = "grey", weight = 1, fillColor = ~pal(SIR),
+                  fillOpacity = 0.5)
+```
+
+Finally, use the `addLegend()` function to add a legend.\
+The `addLegend()` function requires five arguments:
+- `pal`: specify the color palette function,
+- `values`: specify the values to generate colors,
+- `opacity`: set to the same value as the regions,
+- `title`: specify a title for the legend, 
+- `position`: specify a position for the legend.
+
+Again we add what we have done recently `Po` to the legend by using `%>%`
+
+```{r}
+Le <- Po   %>%   addLegend(pal = pal, values = ~SIR, opacity = 0.5,
+            title = "SIR", position = "bottomright")
+```
+
+We call the object `Le` to display the map.
+
+```{r, fig.cap= "Standardized Incidence Ratio (SIR) of cardiovascular disease across Saudi Arabian regions", fig.height= 5, fig.width=6}
+Le
+```
+
+We can combine all the code into one chunk for simplicity.
+
+```{r label = SIRplot , fig.cap= "Standardized Incidence Ratio (SIR) of cardiovascular disease across Saudi Arabian regions", fig.height= 5, fig.width=6}
+library(leaflet)
+pal <- colorNumeric(palette = "viridis",
+                    domain = map$SIR)
+
+l <- leaflet(map) %>% addTiles()
+
+l  %>%  addPolygons(color = "grey", weight = 1, fillColor = ~pal(SIR),
+                  fillOpacity = 0.5)  %>%   addLegend(pal = pal,
+                                                      values = ~SIR, 
+                                                      opacity = 0.5,
+            title = "SIR", position = "bottomright")
+```
+
+
+
+# Joint disease mapping of diabetes and cardiovascular disease
+
+# Quantile disease mapping of cardiovascular disease
+
+# Joint quantile disease mapping of diabetes and cardiovascular disease
+
+# References 
+

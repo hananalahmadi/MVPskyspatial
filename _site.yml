@@ -1,16 +1,10 @@
 name: "my-website"
 output_dir: "docs"
 navbar:
-  title: "Skyspatial"
+  title: "Workshop"
   left:
-    - text: "Home"
-      href: index.html
     - text: "About"
       href: about.html
-    - text: "Page 1"
-      href: page1.html
-    - text: "Presentation"
-      href: skyspatial.html
   right:
     - icon: fa-github
-      href: https://github.com/leninrafaelrierasegura/
+      href: https://github.com/leninrafaelrierasegura/s
